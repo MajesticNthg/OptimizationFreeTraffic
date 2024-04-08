@@ -1,15 +1,39 @@
+import java.util.ArrayList;
+
 public class Level1 {
-    public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+    public static int Unmanned(int L, int N, int[][] track) {
+        ArrayList<Integer> stopTraffic = new ArrayList<>();
+        for (int x = 0; x < track.length; x++) {
+            stopTraffic.add(track[x][0]);
         }
+
+        int amt = 0;
+        int time = 0;
+
+        for (int x = 1; x <= L; x++) {
+            time++;
+            for (int stops : stopTraffic) {
+                if (x == stops) {
+                    time += trafficLightColor(time, track, amt);
+                    amt++;
+                }
+            }
+        }
+
+        return time;
     }
+
+    public static int trafficLightColor(int time, int[][] track, int amt) {
+        int circle = track[amt][1] + track[amt][2];
+
+        while (time > circle) {
+            time -= circle;
+        }
+
+        if (time <= track[amt][1])
+            return track[amt][1] - time;
+        return 0;
+    }
+
 }
+
